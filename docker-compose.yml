@@ -1,0 +1,10 @@
+services:
+  frontend:
+    build: .
+    container_name: task-manager-frontend
+    restart: unless-stopped
+    ports:
+      - '3000:80' # host:container (Pi:container)
+    # If you ever need env vars for nginx or static config, add them here:
+    # environment:
+    #   - SOME_VAR=value

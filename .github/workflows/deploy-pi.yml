@@ -1,0 +1,26 @@
+name: Deploy to Pi
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted # Pi runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync repo to /usr/local/share/projects/task-manager-fe
+        run: |
+          sudo mkdir -p /usr/local/share/projects/task-manager-fe
+          sudo chown -R "$USER":"$USER" /usr/local/share/projects/task-manager-fe
+          rsync -a --delete "${GITHUB_WORKSPACE}/" /usr/local/share/projects/task-manager-fe/
+
+      - name: Build and run with Docker Compose
+        run: |
+          cd /usr/local/share/projects/task-manager-fe
+          docker compose up -d --build
