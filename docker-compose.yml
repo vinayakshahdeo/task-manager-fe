@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   frontend:
-    build: .
-    ports:
-      - '3000:3000'
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: task-manager-fe
+    ports:
+      - '3000:80' # Host port 3000 -> Container port 80
+    restart: unless-stopped
