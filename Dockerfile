@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # Copy source and build
 COPY . .
@@ -23,8 +23,5 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy built assets from the build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose port 80 in the container
 EXPOSE 80
-
-# Run nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
